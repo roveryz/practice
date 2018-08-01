@@ -40,6 +40,12 @@
             <artifactId>commons-logging</artifactId>
             <version>1.0.4</version>
         </dependency>
+        <!--RxJava1.x-->
+        <dependency>
+            <groupId>io.reactivex</groupId>
+            <artifactId>rxjava</artifactId>
+            <version>1.2.9</version>
+        </dependency>
     </dependencies>
 
 
