@@ -1,5 +1,6 @@
 package online.xiaohei.project.practice.offer;
 
+import lombok.val;
 import org.bukkit.material.Tree;
 import org.junit.Test;
 
@@ -229,69 +230,69 @@ public class Solution {
     }
 
     @Test
-    public void test(){
-        int[] a = {7,4,6,5};
+    public void test() {
+        int[] a = {7, 4, 6, 5};
         System.out.println(VerifySquenceOfBST(a));
     }
 
-    public boolean VerifySquenceOfBST(int [] sequence) {
-        return helper(sequence, 0, sequence.length-1);
+    public boolean VerifySquenceOfBST(int[] sequence) {
+        return helper(sequence, 0, sequence.length - 1);
     }
 
-    public boolean helper(int[] a, int start, int end){
+    public boolean helper(int[] a, int start, int end) {
         int root = a[end];
-        if(start == end){
+        if (start == end) {
             return true;
         }
         int rightChildFirstIndex = end;
-        for(int i = start; i < end; i++){
-            if(a[i]>root){
+        for (int i = start; i < end; i++) {
+            if (a[i] > root) {
                 rightChildFirstIndex = i;
                 break;
             }
         }
-        if(rightChildFirstIndex > start){
+        if (rightChildFirstIndex > start) {
             // have left child
-            for(int i = start; i <= rightChildFirstIndex-1;i++){
-                if(root<a[i]){
+            for (int i = start; i <= rightChildFirstIndex - 1; i++) {
+                if (root < a[i]) {
                     return false;
                 }
             }
-            if(!helper(a, start, rightChildFirstIndex - 1)){
+            if (!helper(a, start, rightChildFirstIndex - 1)) {
                 return false;
             }
         }
-        if(rightChildFirstIndex < end){
-            for(int i = rightChildFirstIndex; i < end;i++){
-                if(root>a[i]){
+        if (rightChildFirstIndex < end) {
+            for (int i = rightChildFirstIndex; i < end; i++) {
+                if (root > a[i]) {
                     return false;
                 }
             }
-            if(!helper(a, rightChildFirstIndex, end-1)){
+            if (!helper(a, rightChildFirstIndex, end - 1)) {
                 return false;
             }
         }
         return true;
     }
 
-    public ArrayList<ArrayList<Integer>> FindPath(TreeNode root,int target) {
+    public ArrayList<ArrayList<Integer>> FindPath(TreeNode root, int target) {
         ArrayList<ArrayList<Integer>> lists = new ArrayList<>();
         ArrayList<Integer> list = new ArrayList<>();
         helper(root, target, 0, lists, list);
         Collections.sort(lists, new Comparator<ArrayList<Integer>>() {
             @Override
             public int compare(ArrayList<Integer> o1, ArrayList<Integer> o2) {
-                return o2.size()-o1.size();
+                return o2.size() - o1.size();
             }
         });
         return lists;
     }
 
-    public void helper(TreeNode current, int target, int cValue, ArrayList<ArrayList<Integer>> lists, ArrayList<Integer> list){
+    public void helper(TreeNode current, int target, int cValue, ArrayList<ArrayList<Integer>> lists, ArrayList<Integer> list) {
         cValue += current.val;
-        if(cValue<=target) {
+        if (cValue <= target) {
             list.add(current.val);
-            if (cValue == target && current.left==null && current.right==null) {
+            if (cValue == target && current.left == null && current.right == null) {
                 ArrayList<Integer> dest = new ArrayList<Integer>();
                 for (int i : list) {
                     dest.add(i);
@@ -310,25 +311,24 @@ public class Solution {
     }
 
 
-    public RandomListNode Clone(RandomListNode pHead)
-    {
-        RandomListNode head, p=pHead, q;
+    public RandomListNode Clone(RandomListNode pHead) {
+        RandomListNode head, p = pHead, q;
         Map<RandomListNode, RandomListNode> map = new HashMap<>();
-        head =  new RandomListNode(p.label);
-        q=head;
-        p=p.next;
-        while(p != null ){
+        head = new RandomListNode(p.label);
+        q = head;
+        p = p.next;
+        while (p != null) {
             q.next = new RandomListNode(p.label);
-            map.put(p,q);
-            q=q.next;
-            p=p.next;
+            map.put(p, q);
+            q = q.next;
+            p = p.next;
         }
-        p=pHead;
-        q=head;
-        while(p!=null){
+        p = pHead;
+        q = head;
+        while (p != null) {
             q.random = map.get(p.random);
-            p=p.next;
-            q=q.next;
+            p = p.next;
+            q = q.next;
         }
         return head;
     }
@@ -336,66 +336,66 @@ public class Solution {
     /**
      * 二叉搜索树与双向链表
      * 输入一棵二叉搜索树，将该二叉搜索树转换成一个排序的双向链表。要求不能创建任何新的结点，只能调整树中结点指针的指向。
+     *
      * @param pRootOfTree
-     * @return
-     * root的左指针要改成左子树的最右最后节点
+     * @return root的左指针要改成左子树的最右最后节点
      */
     public TreeNode Convert(TreeNode pRootOfTree) {
-        if(pRootOfTree==null){
+        if (pRootOfTree == null) {
             return null;
         }
         //===deal nodes
         TreeNode leftTmp, rightTmp, head;
-        if(pRootOfTree.left!=null){
-            leftTmp=Convert(pRootOfTree.left);
+        if (pRootOfTree.left != null) {
+            leftTmp = Convert(pRootOfTree.left);
             head = leftTmp;
-            while(leftTmp.right!=null){
-                leftTmp=leftTmp.right;
+            while (leftTmp.right != null) {
+                leftTmp = leftTmp.right;
             }
-            leftTmp.right=pRootOfTree;
-            pRootOfTree.left=leftTmp;
-        }else{
+            leftTmp.right = pRootOfTree;
+            pRootOfTree.left = leftTmp;
+        } else {
             head = pRootOfTree;
         }
-        if(pRootOfTree.right!=null){
-            rightTmp=Convert(pRootOfTree.right);
-            pRootOfTree.right=rightTmp;
-            rightTmp.left=pRootOfTree;
+        if (pRootOfTree.right != null) {
+            rightTmp = Convert(pRootOfTree.right);
+            pRootOfTree.right = rightTmp;
+            rightTmp.left = pRootOfTree;
         }
         return head;
     }
 
-    public boolean IsPopOrder(int [] pushA,int [] popA) {
+    public boolean IsPopOrder(int[] pushA, int[] popA) {
         ArrayList<Integer> list = new ArrayList<>();
         int pos = 0;
-        for(int i : pushA){
-            if(i==popA[pos]){
+        for (int i : pushA) {
+            if (i == popA[pos]) {
                 pos++;
-                while(!list.isEmpty() && list.get(list.size()-1)==popA[pos]){
+                while (!list.isEmpty() && list.get(list.size() - 1) == popA[pos]) {
                     pos++;
-                    list.remove(list.size()-1);
+                    list.remove(list.size() - 1);
                 }
-            }else{
+            } else {
                 list.add(i);
             }
         }
-        if(list.size()==0 && pos==popA.length){
+        if (list.size() == 0 && pos == popA.length) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
 
     @Test
-    public void testPermutation(){
+    public void testPermutation() {
         Permutation("ab");
     }
 
     public ArrayList<String> Permutation(String str) {
         ArrayList<String> list = new ArrayList<>();
-        if(str.length()==0) return list;
+        if (str.length() == 0) return list;
         Set<String> set = new HashSet<>();
-        for(int i = 0; i < str.length(); i++){
+        for (int i = 0; i < str.length(); i++) {
             helper(set, 0, swap(0, i, str));
         }
         list.addAll(set);
@@ -403,56 +403,56 @@ public class Solution {
         return list;
     }
 
-    public void helper(Set<String> set, int k, String str){// to kth has fixed
-        if(k==str.length()-1){
+    public void helper(Set<String> set, int k, String str) {// to kth has fixed
+        if (k == str.length() - 1) {
             set.add(str);
-        }else{
-            for(int i = k+1; i<str.length(); i++){
-                helper(set, k+1, swap(k+1, i, str));
+        } else {
+            for (int i = k + 1; i < str.length(); i++) {
+                helper(set, k + 1, swap(k + 1, i, str));
             }
         }
     }
 
-    public String swap(int i, int j, String str){
+    public String swap(int i, int j, String str) {
         char[] arr = str.toCharArray();
         char tmp = arr[i];
-        arr[i]=arr[j];
-        arr[j]=tmp;
+        arr[i] = arr[j];
+        arr[j] = tmp;
         return new String(arr);
     }
 
-    public int MoreThanHalfNum_Solution(int [] array) {
-        if(array.length==0) return 0;
-        int index  = partition(array, 0, array.length-1);
-        int middle = array.length>>1;
-        while(index!=middle){
-            if(index>middle)
-                index = partition(array, 0, index-1);
+    public int MoreThanHalfNum_Solution(int[] array) {
+        if (array.length == 0) return 0;
+        int index = partition(array, 0, array.length - 1);
+        int middle = array.length >> 1;
+        while (index != middle) {
+            if (index > middle)
+                index = partition(array, 0, index - 1);
             else
-                index = partition(array, index+1, array.length-1);
+                index = partition(array, index + 1, array.length - 1);
         }
         int result = array[index], times = 0;
-        for(int i : array){
-            if(i==result) times++;
+        for (int i : array) {
+            if (i == result) times++;
         }
-        return (times>middle)?result:0;
+        return (times > middle) ? result : 0;
     }
 
-    public int partition(int[] a, int start, int end){
+    public int partition(int[] a, int start, int end) {
         int pivot = a[start], pStart = start, pEnd = end;
-        while(pStart<pEnd){
-            while(pStart<pEnd && a[pEnd]>=pivot) pEnd--;
-            a[pStart]=a[pEnd];
-            while(pStart<pEnd && a[pStart]<=pivot) pStart++;
-            a[pEnd]=a[pStart];
+        while (pStart < pEnd) {
+            while (pStart < pEnd && a[pEnd] >= pivot) pEnd--;
+            a[pStart] = a[pEnd];
+            while (pStart < pEnd && a[pStart] <= pivot) pStart++;
+            a[pEnd] = a[pStart];
         }
-        a[pStart]=pivot;
+        a[pStart] = pivot;
         return pStart;
     }
 
     /**
      * 连续子数组的最大和  包含负数
-     * 
+     *
      * 链接：https://www.nowcoder.com/questionTerminal/459bd355da1549fa8a49e350bf3df484
      来源：牛客网
 
@@ -492,6 +492,178 @@ public class Solution {
      }
 
      */
+
+    /**
+     * 序列化二叉树
+     * 前序遍历呗
+     */
+    @Test
+    public void testSerialize() {
+        TreeNode root = new TreeNode(8);
+        root.left = new TreeNode(6);
+        root.right = new TreeNode(10);
+        root.left.left = new TreeNode(5);
+        root.left.right = new TreeNode(7);
+        root.right.left = new TreeNode(9);
+        root.right.right = new TreeNode(11);
+        String s = Serialize(root);
+        TreeNode newRoot = Deserialize(s);
+    }
+
+    String Serialize(TreeNode root) {
+        StringBuilder builder = new StringBuilder();
+        serializeHelper(root, builder);
+        builder.deleteCharAt(builder.length() - 1);
+        return builder.toString();
+    }
+
+    void serializeHelper(TreeNode currentNode, StringBuilder str) {
+        if (currentNode == null) {
+            str.append("#,");
+        } else {
+            str.append(currentNode.val);
+            str.append(",");
+            serializeHelper(currentNode.left, str);
+            serializeHelper(currentNode.right, str);
+        }
+    }
+
+    TreeNode Deserialize(String str) {
+        String[] vals = str.split(",");
+        TreeNode root = null;
+        if (vals.length > 0 && !vals[0].equals("#")) {
+            root = new TreeNode(Integer.parseInt(vals[0]));
+            int[] pos = {0};
+            deserializeHelper(vals, pos, root);
+        }
+        return root;
+    }
+
+    void deserializeHelper(String[] vals, int[] pos, TreeNode parent) {
+        pos[0]++;
+        if (pos[0] < vals.length) {
+            if (vals[pos[0]].equals("#")) {
+                parent.left = null;
+            } else {
+                parent.left = new TreeNode(Integer.parseInt(vals[pos[0]]));
+                deserializeHelper(vals, pos, parent.left);
+            }
+        }
+        pos[0]++;
+        if (pos[0] < vals.length) {
+            if (vals[pos[0]].equals("#")) {
+                parent.right = null;
+            } else {
+                parent.right = new TreeNode(Integer.parseInt(vals[pos[0]]));
+                deserializeHelper(vals, pos, parent.right);
+            }
+        }
+    }
+
+    /**
+     * 之字形打印二叉树
+     */
+    public ArrayList<ArrayList<Integer>> Print(TreeNode pRoot) {
+        ArrayList<ArrayList<Integer>> lists = new ArrayList<>();
+        Stack<TreeNode> stack1 = new Stack<>();// dan cheng
+        Stack<TreeNode> stack2 = new Stack<>();// shuang ceng
+        int layer = 1;
+        stack1.push(pRoot);
+        while (!stack1.isEmpty() || !stack2.isEmpty()) {
+            if (layer % 2 != 0) {// dan ceng
+                ArrayList<Integer> list = new ArrayList<>();
+                while (!stack1.isEmpty()) {
+                    TreeNode node = stack1.pop();
+                    if (node != null) {
+                        list.add(node.val);
+                        stack2.push(node.left);
+                        stack2.push(node.right);
+                    }
+                }
+                if (!list.isEmpty()) {
+                    lists.add(list);
+                    layer++;
+                }
+            } else {
+                // shuang ceng
+                ArrayList<Integer> list = new ArrayList<>();
+                while (!stack2.isEmpty()) {
+                    TreeNode node = stack2.pop();
+                    if (node != null) {
+                        list.add(node.val);
+                        stack1.push(node.right);
+                        stack1.push(node.left);
+                    }
+                }
+                if (!list.isEmpty()) {
+                    lists.add(list);
+                    layer++;
+                }
+            }
+        }
+        return lists;
+    }
+
+    ArrayList<ArrayList<Integer>> PrintLine(TreeNode pRoot) {
+        ArrayList<ArrayList<Integer>> lists = new ArrayList<ArrayList<Integer>>();
+        Queue<TreeNode> q = new LinkedList<>();
+        ArrayList<Integer> list = new ArrayList<>();
+        int count = 1;
+        q.offer(pRoot);
+        while (!q.isEmpty()) {
+            TreeNode node = q.poll();
+            if (node != null) {
+                list.add(node.val);
+                q.offer(node.left);
+                q.offer(node.right);
+            }
+            count--;
+            if (count == 0) {
+                if (list.size() != 0) {
+                    lists.add(list);
+                    list = new ArrayList<>();
+                    count = q.size();
+                }
+            }
+        }
+        return lists;
+    }
+
+    /**
+     * 包含min函数的栈
+     */
+    Stack<Integer> min = new Stack<>();
+    Stack<Integer> stack = new Stack<>();
+
+    public void push(int node) {
+        stack.push(node);
+        if (min.isEmpty() || node < min.peek()) {
+            min.push(node);
+        } else {
+            min.push(min.peek());
+        }
+    }
+
+    public void pop() {
+        if (!stack.isEmpty())
+            stack.pop();
+        if (!min.isEmpty())
+            min.pop();
+    }
+
+    public int top() {
+        if (!stack.isEmpty())
+            return stack.peek();
+        else
+            return 0;
+    }
+
+    public int min() {
+        if (!min.isEmpty())
+            return min.peek();
+        else
+            return 0;
+    }
 }
 
 class TreeNode {
